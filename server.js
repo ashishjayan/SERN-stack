@@ -34,6 +34,35 @@ app.get("/api/department", (req, res) => {
   });
 });
 
+app.post("/api/specificDepartment", async (req, res) => {
+  try {
+    const departmentInfo = await con.query(
+      "SELECT * FROM company.department WHERE DNUMBER = " + req.body.post
+    );
+    const departLocationInfo = await con.query(
+      "SELECT DLOCATION FROM dept_locations where DNUM = " + req.body.post
+    );
+    const projectInfo = await con.query(
+      "SELECT PNUMBER,PNAME,PLOCATION FROM project WHERE DNUMBER = " +
+        req.body.post
+    );
+    const employeeInfo = await con.query(
+      `select * from employee where ssn in (select essn from works_on where PNO in (select PNUMBER from project where DNUMBER = ${
+        req.body.post
+      }))`
+    );
+    const response = {
+      departmentInfo,
+      departLocationInfo,
+      projectInfo,
+      employeeInfo
+    };
+    res.send(response);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 app.get("/api/projects", (req, res) => {
   con.query("SELECT * FROM company.project", function(err, result, fields) {
     if (err) throw err;

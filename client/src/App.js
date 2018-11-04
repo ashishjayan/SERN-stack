@@ -1,6 +1,7 @@
 import React, { Component, Button } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import "./App.css";
+import { async } from "rxjs/internal/scheduler/async";
 
 class App extends Component {
   render() {
@@ -138,8 +139,23 @@ class Department extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      departments: []
+      departments: [],
+      metaData: null
     };
+  }
+  async fetchDetails(department) {
+    const response = await fetch("/api/specificDepartment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ post: department.DNUMBER })
+    });
+    const body = await response.json();
+    this.setState({
+      metaData: body
+    });
+    if (response.status !== 200) throw Error(body.message);
   }
 
   componentDidMount() {
@@ -158,6 +174,9 @@ class Department extends Component {
 
     return body;
   };
+  handleClick = department => {
+    console.log(department);
+  };
 
   render() {
     console.log(this.state.departments);
@@ -169,15 +188,31 @@ class Department extends Component {
               <th>Department Name </th>
               <th> Department Number</th>
             </tr>
-            {this.state.departments.map(department => (
-              <tr key={department.DNUMBER}>
-                <td>{department.DNAME}</td>
-                <td>
-                  {department.DNUMBER}
-                  <Button />
-                </td>
-              </tr>
-            ))}
+            {this.state.departments.map((department, index) => {
+              return (
+                <tr key={index} onClick={() => this.fetchDetails(department)}>
+                  <td data-title="DNAME">{department.DNAME}</td>
+                  <td data-title="DNUMBER">{department.DNUMBER}</td>
+                </tr>
+              );
+            })}
+          </table>
+
+          <table>
+            <tr>
+              <th>Project Number </th>
+              <th> Project Name</th>
+              <th> Project Location</th>
+            </tr>
+            {/* {this.state.metaData.projectInfo.map((project, index) => {
+              return (
+                <tr key={index}>
+                  <td data-title="PNUMBER">{project.PNUMBER}</td>
+                  <td data-title="PNAME">{project.PNAME}</td>
+                  <td data-title="PLOCATION">{project.PLOCATION}</td>
+                </tr>
+              );
+            })} */}
           </table>
         </tbody>
       </div>
