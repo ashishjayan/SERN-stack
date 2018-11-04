@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Button } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import "./App.css";
 
@@ -172,7 +172,10 @@ class Department extends Component {
             {this.state.departments.map(department => (
               <tr key={department.DNUMBER}>
                 <td>{department.DNAME}</td>
-                <td> {department.DNUMBER}</td>
+                <td>
+                  {department.DNUMBER}
+                  <Button />
+                </td>
               </tr>
             ))}
           </table>
