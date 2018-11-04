@@ -226,7 +226,7 @@ class Department extends Component {
               {this.state.departLocationInfo.map((department, index) => {
                 return (
                   <tr key={index}>
-                    <td data-title="DLOCATION">{department.DLOCATION}</td>
+                    <td data-title="DLOCATIONN">{department.DLOCATION}</td>
                   </tr>
                 );
               })}
