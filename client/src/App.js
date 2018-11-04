@@ -204,25 +204,43 @@ class Department extends Component {
               );
             })}
           </table>
+          {this.state.projectInfo ? (
+            <table>
+              <tr>
+                <th>Project Number </th>
+                <th> Project Name</th>
+                <th> Project Location</th>
+              </tr>
+              {this.state.projectInfo.map((project, index) => {
+                return (
+                  <tr key={index}>
+                    <td data-title="PNUMBER">{project.PNUMBER}</td>
+                    <td data-title="PNAME">{project.PNAME}</td>
+                    <td data-title="PLOCATION">{project.PLOCATION}</td>
+                  </tr>
+                );
+              })}
+            </table>
+          ) : null}
 
-          {/* <table>
-            <tr>
-              <th>Project Number </th>
-              <th> Project Name</th>
-              <th> Project Location</th>
-            </tr>
-            {this.state.metaData.projectInfo[0]
-              ? this.state.metaData.projectInfo[0].map((project, index) => {
-                  return (
-                    <tr key={index}>
-                      <td data-title="PNUMBER">{project.PNUMBER}</td>
-                      <td data-title="PNAME">{project.PNAME}</td>
-                      <td data-title="PLOCATION">{project.PLOCATION}</td>
-                    </tr>
-                  );
-                })
-              : null}
-          </table> */}
+          {this.state.employeeInfo ? (
+            <table>
+              <tr>
+                <th>Employee SSN </th>
+                <th> Last Name</th>
+                <th> First Name</th>
+              </tr>
+              {this.state.employeeInfo.map((employee, index) => {
+                return (
+                  <tr key={index}>
+                    <td data-title="SSN">{employee.SSN}</td>
+                    <td data-title="LNAME">{employee.LNAME}</td>
+                    <td data-title="FNAME">{employee.FNAME}</td>
+                  </tr>
+                );
+              })}
+            </table>
+          ) : null}
         </tbody>
       </div>
     );
