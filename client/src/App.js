@@ -140,7 +140,11 @@ class Department extends Component {
     super(props);
     this.state = {
       departments: [],
-      metaData: null
+      metaData: null,
+      departmentInfo: null,
+      departLocationInfo: null,
+      projectInfo: null,
+      employeeInfo: null
     };
   }
   async fetchDetails(department) {
@@ -153,7 +157,10 @@ class Department extends Component {
     });
     const body = await response.json();
     this.setState({
-      metaData: body
+      departLocationInfo: body.departLocationInfo[0],
+      departmentInfo: body.departmentInfo[0],
+      projectInfo: body.projectInfo[0],
+      employeeInfo: body.employeeInfo[0]
     });
     if (response.status !== 200) throw Error(body.message);
   }
@@ -198,22 +205,24 @@ class Department extends Component {
             })}
           </table>
 
-          <table>
+          {/* <table>
             <tr>
               <th>Project Number </th>
               <th> Project Name</th>
               <th> Project Location</th>
             </tr>
-            {/* {this.state.metaData.projectInfo.map((project, index) => {
-              return (
-                <tr key={index}>
-                  <td data-title="PNUMBER">{project.PNUMBER}</td>
-                  <td data-title="PNAME">{project.PNAME}</td>
-                  <td data-title="PLOCATION">{project.PLOCATION}</td>
-                </tr>
-              );
-            })} */}
-          </table>
+            {this.state.metaData.projectInfo[0]
+              ? this.state.metaData.projectInfo[0].map((project, index) => {
+                  return (
+                    <tr key={index}>
+                      <td data-title="PNUMBER">{project.PNUMBER}</td>
+                      <td data-title="PNAME">{project.PNAME}</td>
+                      <td data-title="PLOCATION">{project.PLOCATION}</td>
+                    </tr>
+                  );
+                })
+              : null}
+          </table> */}
         </tbody>
       </div>
     );

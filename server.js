@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -36,21 +36,29 @@ app.get("/api/department", (req, res) => {
 
 app.post("/api/specificDepartment", async (req, res) => {
   try {
-    const departmentInfo = await con.query(
-      "SELECT * FROM company.department WHERE DNUMBER = " + req.body.post
-    );
-    const departLocationInfo = await con.query(
-      "SELECT DLOCATION FROM dept_locations where DNUM = " + req.body.post
-    );
-    const projectInfo = await con.query(
-      "SELECT PNUMBER,PNAME,PLOCATION FROM project WHERE DNUMBER = " +
-        req.body.post
-    );
-    const employeeInfo = await con.query(
-      `select * from employee where ssn in (select essn from works_on where PNO in (select PNUMBER from project where DNUMBER = ${
-        req.body.post
-      }))`
-    );
+    const departmentInfo = await con
+      .promise()
+      .query(
+        "SELECT * FROM company.department WHERE DNUMBER = " + req.body.post
+      );
+    const departLocationInfo = await con
+      .promise()
+      .query(
+        "SELECT DLOCATION FROM dept_locations where DNUM = " + req.body.post
+      );
+    const projectInfo = await con
+      .promise()
+      .query(
+        "SELECT PNUMBER,PNAME,PLOCATION FROM project WHERE DNUMBER = " +
+          req.body.post
+      );
+    const employeeInfo = await con
+      .promise()
+      .query(
+        `select * from employee where ssn in (select essn from works_on where PNO in (select PNUMBER from project where DNUMBER = ${
+          req.body.post
+        }))`
+      );
     const response = {
       departmentInfo,
       departLocationInfo,
