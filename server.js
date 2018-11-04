@@ -59,11 +59,19 @@ app.post("/api/specificDepartment", async (req, res) => {
           req.body.post
         }))`
       );
+    const managerInfo = await con
+      .promise()
+      .query(
+        `select * from employee where ssn = (select MGRSSN from department where DNUMBER = ${
+          req.body.post
+        })`
+      );
     const response = {
       departmentInfo,
       departLocationInfo,
       projectInfo,
-      employeeInfo
+      employeeInfo,
+      managerInfo
     };
     res.send(response);
   } catch (error) {

@@ -1,7 +1,7 @@
 import React, { Component, Button } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import "./App.css";
-import { async } from "rxjs/internal/scheduler/async";
+import moment from "moment";
 
 class App extends Component {
   render() {
@@ -144,7 +144,8 @@ class Department extends Component {
       departmentInfo: null,
       departLocationInfo: null,
       projectInfo: null,
-      employeeInfo: null
+      employeeInfo: null,
+      managerInfo: null
     };
   }
   async fetchDetails(department) {
@@ -160,7 +161,8 @@ class Department extends Component {
       departLocationInfo: body.departLocationInfo[0],
       departmentInfo: body.departmentInfo[0],
       projectInfo: body.projectInfo[0],
-      employeeInfo: body.employeeInfo[0]
+      employeeInfo: body.employeeInfo[0],
+      managerInfo: body.managerInfo[0]
     });
     if (response.status !== 200) throw Error(body.message);
   }
@@ -204,6 +206,33 @@ class Department extends Component {
               );
             })}
           </table>
+
+          {this.state.departmentInfo && this.state.managerInfo ? (
+            <div>
+              <p>{`Department : ${this.state.departmentInfo[0].DNAME}`}</p>
+              <p>{`Manager : ${this.state.managerInfo[0].LNAME}, ${
+                this.state.managerInfo[0].FNAME
+              }`}</p>
+              <p>{`Manager Start Date : ${moment(
+                this.state.departmentInfo[0].MGRSTARTDATE
+              ).format("L")}`}</p>
+            </div>
+          ) : null}
+          {this.state.departLocationInfo ? (
+            <table>
+              <tr>
+                <th>Department Location </th>
+              </tr>
+              {this.state.departLocationInfo.map((department, index) => {
+                return (
+                  <tr key={index}>
+                    <td data-title="DLOCATION">{department.DLOCATION}</td>
+                  </tr>
+                );
+              })}
+            </table>
+          ) : null}
+
           {this.state.projectInfo ? (
             <table>
               <tr>
