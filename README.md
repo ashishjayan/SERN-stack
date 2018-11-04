@@ -1,2 +1,1 @@
-# SERN-stack
-Sql stack
+# MERN-stack
