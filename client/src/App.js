@@ -209,13 +209,22 @@ class Department extends Component {
 
           {this.state.departmentInfo && this.state.managerInfo ? (
             <div>
-              <p>{`Department : ${this.state.departmentInfo[0].DNAME}`}</p>
-              <p>{`Manager : ${this.state.managerInfo[0].LNAME}, ${
-                this.state.managerInfo[0].FNAME
-              }`}</p>
-              <p>{`Manager Start Date : ${moment(
-                this.state.departmentInfo[0].MGRSTARTDATE
-              ).format("L")}`}</p>
+              <p>
+                <strong>Department :</strong>
+                {` ${this.state.departmentInfo[0].DNAME}`}
+              </p>
+              <p>
+                <strong>Manager :</strong>
+                {` ${this.state.managerInfo[0].LNAME}, ${
+                  this.state.managerInfo[0].FNAME
+                }`}
+              </p>
+              <p>
+                <strong>Manager Start Date :</strong>
+                {` ${moment(this.state.departmentInfo[0].MGRSTARTDATE).format(
+                  "L"
+                )}`}
+              </p>
             </div>
           ) : null}
           {this.state.departLocationInfo ? (
